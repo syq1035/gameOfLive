@@ -80,37 +80,32 @@ function changeStatus(row,col){
                         is_change_state =1;
                     }
                 }
-                //console.log(current_state_array)
             }
         }
         arr = current_state_array;
     }
-    console.log("ccccc")
-    console.log(arr);
 }
 
 function cycle(row,col){
     changeStatus(row,col);
     for (var i =0; i<row; i++){
+        //console.log(row)
         for (var j =0; j<col; j++){
-            console.log(arr[i,j]);
-            if(arr[i,j]==0){
+            //console.log(arr[i][j])
+            if(arr[i][j]==0){
             $(`.row-${i}-col-${j}`).css({"background-color":"yellow"});
-            console.log(i,j)
+            //console.log(i,j)
             }
-            if(arr[i,j]==1){
+            if(arr[i][j]==1){
             $(`.row-${i}-col-${j}`).css({"background-color":"red"});
             console.log(i,j)
             }
         }
     }
-    console.log(arr);
 
 }
   init(row,col);
   initStatus(row,col);
-  cycle(row,col);
-  //setInterval(cycle(),1000);
   $('.btn').click(function(){
     setInterval(cycle(row,col),1000);
   })
