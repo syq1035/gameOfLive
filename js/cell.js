@@ -37,7 +37,7 @@ while(is_change_state) {
     is_change_state = 0;
     var current_state_array = new Array();
     for (var i =0; i<N; i++){
-        state[i] = new Array()
+        current_state_array[i] = new Array()
         for (var j =0; j<N; j++){
             current_state_array[i][j] = 0;
         }
