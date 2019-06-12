@@ -31,7 +31,6 @@ function initStatus(row,col){
         }
     }
 }
-
 function number_of_live_cell_in_neighborhood(current_state_array,pos_x,pox_y,row,col) {
   var direction=[-1,0,1];
   var count = 0;
@@ -52,7 +51,6 @@ function number_of_live_cell_in_neighborhood(current_state_array,pos_x,pox_y,row
 }
 function changeStatus(row,col){
     var is_change_state = 1;
-    //while(is_change_state) {
         is_change_state = 0;
         var current_state_array = new Array();
         for (var i =0; i<row; i++){
@@ -64,7 +62,6 @@ function changeStatus(row,col){
         }
         for (var i = 0; i < row; i++) {
             for (var j = 0; j < col; j++) {
-                // console.log(i.toString()+"  "+j.toString());
                 var count = number_of_live_cell_in_neighborhood(arr,i, j,row,col);
 
                 if (count == 3) {
@@ -83,23 +80,18 @@ function changeStatus(row,col){
             }
         }
         arr = current_state_array;
-    //}
 }
 
 function cycle(row,col){
     console.log(arr)
     changeStatus(row,col);
     for (var i =0; i<row; i++){
-        //console.log(row)
         for (var j =0; j<col; j++){
-            //console.log(arr[i][j])
             if(arr[i][j]==0){
             $(`.row-${i}-col-${j}`).css({"background-color":"red"});
-            //console.log(i,j)
             }
             if(arr[i][j]==1){
             $(`.row-${i}-col-${j}`).css({"background-color":"yellow"});
-            //console.log(i,j)
             }
         }
     }
@@ -107,12 +99,13 @@ function cycle(row,col){
 }
   init(row,col);
   initStatus(row,col);
+  var interval;
   $('.btnStart').click(function(){
-    var st = setInterval(function(){
+    interval = setInterval(function(){
         cycle(row,col)
     },500);
   })
-//   $('.btnEnd').click(function(){
-//       clearInterval(st);
-//   })
+  $('.btnEnd').click(function(){
+    clearInterval(interval);
+  })
 })
