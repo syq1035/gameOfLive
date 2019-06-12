@@ -1,108 +1,96 @@
 $(function(){
-  let row = 50;
-  let col = 50;
-  var arr = new Array();
+  var global_row = 50;
+  var global_column = 50;
+  var global_array_of_total_cells = new Array();
 
-  //初始化网格
-  function init(row,col){
-    for(let i =0; i<row; i++){
-      $('.gameboard').append(`<div class='board-row row-${i}'></div>`) 
-      for(let j =0; j<col; j++){
-        $(`.row-${i}`).append(`<button class='square row-${i}-col-${j}'></button>`)
+  function init_grids(){
+    for(var row_index =0; row_index<global_row; row_index++){
+      $('.gameboard').append(`<div class='board-row row-${row_index}'></div>`)
+      for(var column_index =0; column_index<global_column; column_index++){
+        $(`.row-${row_index}`).append(`<button class='square row-${row_index}-col-${column_index}'></button>`)
       }
-   
     }
-
   }
-//初始化生命状态
-function initStatus(row,col){
-    var th = 0.3;
-    for (var i =0; i<row; i++){
-        arr[i] = new Array()
-        for (var j =0; j<col; j++){
-            if (Math.random()>th){
-                arr[i][j] = 1;
-                $(`.row-${i}-col-${j}`).css({"background-color":"yellow"});
 
-            }else{
-                arr[i][j] = 0;
-                $(`.row-${i}-col-${j}`).css({"background-color":"red"});
-            }
+  function init_status_of_total_cells(){
+    var ratio_of_live_cells = 0.7;
+    for (var row_index =0; row_index<global_row; row_index++){
+      global_array_of_total_cells[row_index] = new Array()
+      for (var column_index =0; column_index<global_column; column_index++){
+        if (Math.random()>ratio_of_live_cells){
+          global_array_of_total_cells[row_index][column_index] = 1;
+          $(`.row-${row_index}-col-${column_index}`).css({"background-color":"yellow"});
+        }else{
+          global_array_of_total_cells[row_index][column_index] = 0;
+          $(`.row-${row_index}-col-${column_index}`).css({"background-color":"red"});
         }
-    }
-}
-function number_of_live_cell_in_neighborhood(current_state_array,pos_x,pox_y,row,col) {
-  var direction=[-1,0,1];
-  var count = 0;
-  for (var i = 0; i < 3; i++) {
-      for (var j = 0; j < 3; j++) {
-          if (direction[i] == 0 && direction[j] == 0) {
-              count += 0;
-          } else if (pos_x + direction[i] < 0 || pos_x + direction[i] > row - 1) {
-              count += 0;
-          } else if (pox_y + direction[j] < 0 || pox_y + direction[j] > col - 1) {
-              count += 0;
-          } else {
-              count += arr[pos_x + direction[i]][pox_y + direction[j]];
-          }
       }
-  }
-  return count;
-}
-function changeStatus(row,col){
-    var is_change_state = 1;
-        is_change_state = 0;
-        var current_state_array = new Array();
-        for (var i =0; i<row; i++){
-            
-            current_state_array[i] = new Array()
-            for (var j =0; j<col; j++){
-                current_state_array[i][j] = 0;
-            }
-        }
-        for (var i = 0; i < row; i++) {
-            for (var j = 0; j < col; j++) {
-                var count = number_of_live_cell_in_neighborhood(arr,i, j,row,col);
-
-                if (count == 3) {
-                    current_state_array[i][j] = 1;
-                    if (arr[i][j] == 0){
-                        is_change_state = 1;
-                    }
-                } else if (count == 2) {
-                    current_state_array[i][j] = arr[i][j];
-                } else {
-                    current_state_array[i][j] = 0;
-                    if (arr[i][j] == 1){
-                        is_change_state =1;
-                    }
-                }
-            }
-        }
-        arr = current_state_array;
-}
-
-function cycle(row,col){
-    console.log(arr)
-    changeStatus(row,col);
-    for (var i =0; i<row; i++){
-        for (var j =0; j<col; j++){
-            if(arr[i][j]==0){
-            $(`.row-${i}-col-${j}`).css({"background-color":"red"});
-            }
-            if(arr[i][j]==1){
-            $(`.row-${i}-col-${j}`).css({"background-color":"yellow"});
-            }
-        }
     }
+  }
 
-}
-  init(row,col);
-  initStatus(row,col);
+  function generate_zero_array_like_rol_column(){
+    var zero_array = new Array();
+    for (var row_index =0; row_index<global_row; row_index++){
+      zero_array[row_index] = new Array()
+      for (var column_index =0; column_index<global_column; column_index++){
+        zero_array[row_index][column_index] = 0;
+      }
+    }
+    return zero_array;
+  }
+
+  function get_number_of_live_cells_in_neighborhood(current_status_array,current_position_row_index,current_position_column_index) {
+    var count_live_cells = 0;
+    for (var axis_x = -1; axis_x <= 1; axis_x++) {
+      for (var axis_y = -1; axis_y <= 1; axis_y++) {
+        if (axis_x == 0 && axis_y == 0) {
+          count_live_cells += 0;
+        } else if (current_position_row_index + axis_x < 0 || current_position_row_index + axis_x > global_row - 1) {
+          count_live_cells += 0;
+        } else if (current_position_column_index + axis_y < 0 || current_position_column_index + axis_y > global_column - 1) {
+          count_live_cells += 0;
+        } else {
+          count_live_cells += current_status_array[current_position_row_index + axis_x][current_position_column_index + axis_y];
+        }
+      }
+    }
+    return count_live_cells;
+  }
+
+  function change_status(){
+    var current_status_array = generate_zero_array_like_rol_column();
+    for (var row_index = 0; row_index < global_row; row_index++) {
+      for (var column_index = 0; column_index < global_column; column_index++) {
+        var number_of_live_cells_in_neighborhood = get_number_of_live_cells_in_neighborhood(global_array_of_total_cells,row_index, column_index);
+        if (number_of_live_cells_in_neighborhood == 3) {
+          current_status_array[row_index][column_index] = 1;
+        } else if (number_of_live_cells_in_neighborhood == 2) {
+          current_status_array[row_index][column_index] = global_array_of_total_cells[row_index][column_index];
+        }
+      }
+    }
+    global_array_of_total_cells = current_status_array;
+  }
+
+  function cycle(){
+    change_status();
+    for (var row_index =0; row_index<global_row; row_index++){
+      for (var column_index =0; column_index<global_column; column_index++){
+        if(global_array_of_total_cells[row_index][column_index]==0){
+          $(`.row-${row_index}-col-${column_index}`).css({"background-color":"red"});
+        } else{
+          $(`.row-${row_index}-col-${column_index}`).css({"background-color":"yellow"});
+        }
+      }
+    }
+  }
+
+  init_grids();
+  init_status_of_total_cells();
   var interval;
   $('.btnStart').click(function(){
     interval = setInterval(function(){
-        cycle(row,col)
+        cycle()
     },500);
   })
   $('.btnEnd').click(function(){
