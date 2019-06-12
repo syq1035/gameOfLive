@@ -1,6 +1,6 @@
 $(function(){
-  let row = 10;
-  let col = 10;
+  let row = 50;
+  let col = 50;
   var arr = new Array();
 
   //初始化网格
@@ -52,7 +52,7 @@ function number_of_live_cell_in_neighborhood(current_state_array,pos_x,pox_y,row
 }
 function changeStatus(row,col){
     var is_change_state = 1;
-    while(is_change_state) {
+    //while(is_change_state) {
         is_change_state = 0;
         var current_state_array = new Array();
         for (var i =0; i<row; i++){
@@ -83,22 +83,23 @@ function changeStatus(row,col){
             }
         }
         arr = current_state_array;
-    }
+    //}
 }
 
 function cycle(row,col){
+    console.log(arr)
     changeStatus(row,col);
     for (var i =0; i<row; i++){
         //console.log(row)
         for (var j =0; j<col; j++){
             //console.log(arr[i][j])
             if(arr[i][j]==0){
-            $(`.row-${i}-col-${j}`).css({"background-color":"yellow"});
+            $(`.row-${i}-col-${j}`).css({"background-color":"red"});
             //console.log(i,j)
             }
             if(arr[i][j]==1){
-            $(`.row-${i}-col-${j}`).css({"background-color":"red"});
-            console.log(i,j)
+            $(`.row-${i}-col-${j}`).css({"background-color":"yellow"});
+            //console.log(i,j)
             }
         }
     }
@@ -106,7 +107,12 @@ function cycle(row,col){
 }
   init(row,col);
   initStatus(row,col);
-  $('.btn').click(function(){
-    setInterval(cycle(row,col),1000);
+  $('.btnStart').click(function(){
+    var st = setInterval(function(){
+        cycle(row,col)
+    },500);
   })
+//   $('.btnEnd').click(function(){
+//       clearInterval(st);
+//   })
 })
