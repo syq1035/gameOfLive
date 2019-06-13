@@ -1,5 +1,3 @@
-// const main = require('../main/operationForGameOfLive');
-// import change_status from '../main/operationForGameOfLive';
 var global_row = 30;
 var global_column = 50;
 var speed = 500;
@@ -142,9 +140,11 @@ $('.board-row').click(function(e){
   var idString = id.split("-");
   var btn_row = parseInt(idString[1]);
   var btn_col = parseInt(idString[3]);
-  global_array_of_total_cells[btn_row][btn_col] = global_array_of_total_cells[btn_row][btn_col] == 0? 1:0;
-  var color = e.target.style.backgroundColor;
-  color = color=='red'? 'black':'red';
-  e.target.style.backgroundColor = color;
+  if(btn_row<global_row&&btn_col<global_column) {
+    global_array_of_total_cells[btn_row][btn_col] = global_array_of_total_cells[btn_row][btn_col] == 0 ? 1 : 0;
+    var color = e.target.style.backgroundColor;
+    color = color == 'red' ? 'black' : 'red';
+    e.target.style.backgroundColor = color;
+  }
 })
 
