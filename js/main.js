@@ -5,9 +5,9 @@
 
   function init_grids(){
     for(var row_index =0; row_index<global_row; row_index++){
-      $('.gameboard').append(`<div class='board-row row-${row_index}'></div>`)
+      $('.gameboard').append(`<div class='board-row' id='row-${row_index}'></div>`)
       for(var column_index =0; column_index<global_column; column_index++){
-        $(`.row-${row_index}`).append(`<button class='square row-${row_index}-col-${column_index}'></button>`)
+        $(`#row-${row_index}`).append(`<button class='square' id='row-${row_index}-col-${column_index}'></button>`)
       }
     }
   }
@@ -19,10 +19,10 @@
       for (var column_index =0; column_index<global_column; column_index++){
         if (Math.random()>ratio_of_live_cells){
           global_array_of_total_cells[row_index][column_index] = 1;
-          $(`.row-${row_index}-col-${column_index}`).css({"background-color":"red"});
+          $(`#row-${row_index}-col-${column_index}`).css({"background-color":"red"});
         }else{
           global_array_of_total_cells[row_index][column_index] = 0;
-          $(`.row-${row_index}-col-${column_index}`).css({"background-color":"#242424"});
+          $(`#row-${row_index}-col-${column_index}`).css({"background-color":"#242424"});
         }
       }
     }
@@ -77,9 +77,9 @@
     for (var row_index =0; row_index<global_row; row_index++){
       for (var column_index =0; column_index<global_column; column_index++){
         if(global_array_of_total_cells[row_index][column_index]==0){
-          $(`.row-${row_index}-col-${column_index}`).css({"background-color":"#242424"});
+          $(`#row-${row_index}-col-${column_index}`).css({"background-color":"#242424"});
         } else{
-          $(`.row-${row_index}-col-${column_index}`).css({"background-color":"red"});
+          $(`#row-${row_index}-col-${column_index}`).css({"background-color":"red"});
         }
       }
     }
@@ -95,6 +95,12 @@
   })
   $('#end').click(function(){
     clearInterval(interval);
+  })
+  $('#reset').click(function(){
+    clearInterval(interval);
+    $('.board-row').remove();
+    init_grids();
+    init_status_of_total_cells();  
   })
   $('#row').blur(function(){
     var value = $('#row').val();
@@ -119,4 +125,14 @@
     if(value!=""){
       speed = value;
     }
+  })
+  $('.board-row').click(function(e){
+    var id = e.target.getAttribute("id");
+    var idString = id.split("-");
+    var btn_row = parseInt(idString[1]);
+    var btn_col = parseInt(idString[3]);
+    global_array_of_total_cells[btn_row][btn_col] = global_array_of_total_cells[btn_row][btn_col] == 0? 1:0;
+    var color = e.target.style.backgroundColor;
+    color = color=='red'? 'black':'red';
+    e.target.style.backgroundColor = color;
   })
