@@ -102,6 +102,12 @@
     init_grids();
     init_status_of_total_cells();  
   })
+  $('#reset').click(function(){
+    clearInterval(interval);
+    $('.board-row').remove();
+    init_grids();
+    init_status_of_total_cells();  
+  })
   $('#row').blur(function(){
     var value = $('#row').val();
     if(value!=""){

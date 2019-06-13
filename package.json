@@ -1,0 +1,23 @@
+{
+  "name": "gameOfLive",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/syq1035/gameOfLive.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/syq1035/gameOfLive/issues"
+  },
+  "homepage": "https://github.com/syq1035/gameOfLive#readme",
+  "dependencies": {
+    "jasmine": "^3.4.0"
+  }
+}
