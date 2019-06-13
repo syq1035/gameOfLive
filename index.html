@@ -6,27 +6,24 @@
   <title>game of live</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-  <script src="./js/jquery-3.2.1.js"></script>
-  <script src="./js/main.js"></script>
 </head>
 <body>
   <div class="game">
+    <!-- <button class="btn" id="setting" data-toggle="modal" data-target="#myModal">Setting</button> -->
+    <button class="btn" id="start">Start</button>
+    <button class="btn" id="end">End</button>
+    <div class="gameboard"></div>
     <div>
       <label for="row">row：</label>
       <input type="text" name="row" id="row">
+      <label for="col">col：</label>
+      <input type="text" name="col" id="col">
+      <label for="speed">speed：</label>
+      <input type="text" name="speed" id="speed">
     </div>
-    <div>
-        <label for="col">col：</label>
-        <input type="text" name="col" id="col">
-    </div>
-    <div>
-        <label for="speed">speed：</label>
-        <input type="text" name="speed" id="speed">
-    </div>
-    <button class="btnStart">开始</button>
-    <button class="btnEnd">结束</button>
-
-    <div class="gameboard"></div>
   </div>
+  <script src="./js/jquery-3.2.1.js"></script>
+  <script src="./js/main.js"></script>
+
 </body>
 </html>

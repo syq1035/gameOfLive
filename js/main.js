@@ -1,6 +1,6 @@
-$(function(){
-  var global_row = 50;
+  var global_row = 30;
   var global_column = 50;
+  var speed = 500;
   var global_array_of_total_cells = new Array();
 
   function init_grids(){
@@ -19,10 +19,10 @@ $(function(){
       for (var column_index =0; column_index<global_column; column_index++){
         if (Math.random()>ratio_of_live_cells){
           global_array_of_total_cells[row_index][column_index] = 1;
-          $(`.row-${row_index}-col-${column_index}`).css({"background-color":"yellow"});
+          $(`.row-${row_index}-col-${column_index}`).css({"background-color":"red"});
         }else{
           global_array_of_total_cells[row_index][column_index] = 0;
-          $(`.row-${row_index}-col-${column_index}`).css({"background-color":"red"});
+          $(`.row-${row_index}-col-${column_index}`).css({"background-color":"#242424"});
         }
       }
     }
@@ -77,9 +77,9 @@ $(function(){
     for (var row_index =0; row_index<global_row; row_index++){
       for (var column_index =0; column_index<global_column; column_index++){
         if(global_array_of_total_cells[row_index][column_index]==0){
-          $(`.row-${row_index}-col-${column_index}`).css({"background-color":"red"});
+          $(`.row-${row_index}-col-${column_index}`).css({"background-color":"#242424"});
         } else{
-          $(`.row-${row_index}-col-${column_index}`).css({"background-color":"yellow"});
+          $(`.row-${row_index}-col-${column_index}`).css({"background-color":"red"});
         }
       }
     }
@@ -88,12 +88,35 @@ $(function(){
   init_grids();
   init_status_of_total_cells();
   var interval;
-  $('.btnStart').click(function(){
+  $('#start').click(function(){
     interval = setInterval(function(){
-        cycle()
-    },500);
+        cycle();
+    },speed);
   })
-  $('.btnEnd').click(function(){
+  $('#end').click(function(){
     clearInterval(interval);
   })
-})
+  $('#row').blur(function(){
+    var value = $('#row').val();
+    if(value!=""){
+      global_row = parseInt(value);
+      $('.board-row').remove();
+      init_grids();
+      init_status_of_total_cells();
+    }
+  })
+  $('#col').blur(function(){
+    var value = $('#col').val();
+    if(value!=""){
+      global_row = parseInt(value);
+      $('.board-row').remove();
+      init_grids();
+      init_status_of_total_cells();
+    }
+  })
+  $('#speed').blur(function(){
+    var value = $('#speed').val();
+    if(value!=""){
+      speed = value;
+    }
+  })
