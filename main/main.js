@@ -1,5 +1,3 @@
-// const main = require('../main/operationForGameOfLive');
-// import change_status from '../main/operationForGameOfLive';
 var global_row = 30;
 var global_column = 50;
 var speed = 500;
@@ -107,11 +105,12 @@ $('#reset').click(function(){
   init_grids();
   init_status_of_total_cells();
 })
-$('#reset').click(function(){
-  clearInterval(interval);
+$('#clear').click(function(){
   $('.board-row').remove();
   init_grids();
-  init_status_of_total_cells();
+  global_array_of_total_cells = generate_zero_array_like_rol_column();
+  console.log(global_array_of_total_cells)
+  $('.square').css({"background-color":"#242424"});
 })
 $('#row').blur(function(){
   var value = $('#row').val();
@@ -137,7 +136,7 @@ $('#speed').blur(function(){
     speed = value;
   }
 })
-$('.board-row').click(function(e){
+$('.gameboard').on("click",function(e){
   var id = e.target.getAttribute("id");
   var idString = id.split("-");
   var btn_row = parseInt(idString[1]);
